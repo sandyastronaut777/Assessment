@@ -1,0 +1,220 @@
+HTML ⇒
+
+Q.1.: Create a basic calculator using HTML, CSS, and JavaScript with the functionality of add, subtract, multiply and divide.
+
+Code:
+
+
+HTML
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>Basic Calculator</title>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" id="display" readonly>
+        <br>
+        <button onclick="appendToDisplay('1')">1</button>
+        <button onclick="appendToDisplay('2')">2</button>
+        <button onclick="appendToDisplay('3')">3</button>
+        <button onclick="appendToDisplay('+')">+</button>
+        <br>
+        <button onclick="appendToDisplay('4')">4</button>
+        <button onclick="appendToDisplay('5')">5</button>
+        <button onclick="appendToDisplay('6')">6</button>
+        <button onclick="appendToDisplay('-')">-</button>
+        <br>
+        <button onclick="appendToDisplay('7')">7</button>
+        <button onclick="appendToDisplay('8')">8</button>
+        <button onclick="appendToDisplay('9')">9</button>
+        <button onclick="appendToDisplay('*')">*</button>
+        <br>
+        <button onclick="appendToDisplay('0')">0</button>
+        <button onclick="clearDisplay()">C</button>
+        <button onclick="calculate()">=</button>
+        <button onclick="appendToDisplay('/')">/</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
+
+CSS(styles.css):
+
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.calculator {
+    text-align: center;
+}
+
+button {
+    width: 50px;
+    height: 50px;
+    margin: 5px;
+    font-size: 18px;
+}
+
+
+JavaScript(script.js):
+
+function appendToDisplay(value) {
+    document.getElementById('display').value += value;
+}
+
+function clearDisplay() {
+    document.getElementById('display').value = '';
+}
+
+function calculate() {
+    try {
+        document.getElementById('display').value = eval(document.getElementById('display').value);
+    } catch (error) {
+        document.getElementById('display').value = 'Error';
+    }
+}
+
+
+Q.2.: Create a survey form with Fields; First Name, Last Name, Date of Birth, Country
+(dropdown), Gender (checkbox), Profession, email, and mobile number. All the input
+fields are necessary to submit the form. Create two buttons Submit and Reset. Reset will
+reset the form while clicking on submit, first, it will check all the fields and necessary
+validations and then a popup will appear displaying all the selected values with labels in
+front of it. On closing the popup, the form should reset all the values.
+
+Code:
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Survey Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        form {
+            width: 400px;
+            padding: 20px;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-bottom: 16px;
+            box-sizing: border-box;
+        }
+
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button[type="reset"] {
+            background-color: #f44336;
+        }
+    </style>
+</head>
+<body>
+
+    <form id="surveyForm" onsubmit="submitForm(); return false;">
+        <label for="firstName">First Name:</label>
+        <input type="text" id="firstName" required>
+
+        <label for="lastName">Last Name:</label>
+        <input type="text" id="lastName" required>
+
+        <label for="dob">Date of Birth:</label>
+        <input type="date" id="dob" required>
+
+        <label for="country">Country:</label>
+        <select id="country" required>
+            <option value="" disabled selected>Select Country</option>
+            <option value="usa">USA</option>
+            <option value="canada">Canada</option>
+            <!-- Add more countries as needed -->
+        </select>
+
+        <label>Gender:</label>
+        <label><input type="checkbox" name="gender" value="male"> Male</label>
+        <label><input type="checkbox" name="gender" value="female"> Female</label>
+
+        <label for="profession">Profession:</label>
+        <input type="text" id="profession" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+
+        <label for="mobile">Mobile Number:</label>
+        <input type="tel" id="mobile" required>
+
+        <button type="submit">Submit</button>
+        <button type="reset">Reset</button>
+    </form>
+
+    <script>
+        function submitForm() {
+            // Get form values
+            var firstName = document.getElementById('firstName').value;
+            var lastName = document.getElementById('lastName').value;
+            var dob = document.getElementById('dob').value;
+            var country = document.getElementById('country').value;
+            var gender = document.querySelectorAll('input[name="gender"]:checked');
+            var profession = document.getElementById('profession').value;
+            var email = document.getElementById('email').value;
+            var mobile = document.getElementById('mobile').value;
+
+            // Validate all fields
+            if (!firstName || !lastName || !dob || !country || gender.length === 0 || !profession || !email || !mobile) {
+                alert('Please fill in all fields.');
+                return;
+            }
+
+            // Create and display popup
+            var popupMessage = `First Name: ${firstName}\nLast Name: ${lastName}\nDate of Birth: ${dob}\nCountry: ${country}\nGender: `;
+            for (var i = 0; i < gender.length; i++) {
+                popupMessage += gender[i].value + ' ';
+            }
+            popupMessage += `\nProfession: ${profession}\nEmail: ${email}\nMobile Number: ${mobile}`;
+
+            alert(popupMessage);
+
+            // Reset form
+            document.getElementById('surveyForm').reset();
+        }
+    </script>
+
+</body>
+</html>
+
+
+
